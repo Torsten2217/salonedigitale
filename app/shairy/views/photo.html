@@ -1,0 +1,25 @@
+<ion-view title="Photo" ng-controller="PhotoDetailCtrl">
+	<ion-header-bar class="bar-stable" no-tap-scroll="true" ng-class="{'mg-top-20': !android}">
+		<button class="button bar-left-button" on-tap="back()">
+			<span class="sh-span-icon sh-icon-arrow-left"></span>
+		</button>
+		<h1 class="title">Dettaglio Foto</h1>
+		<button class="button bar-right-button" on-tap="remove()" ng-class="{'button-disabled': !online}">
+			<span class="sh-span-icon sh-icon-trash"></span>
+		</button>
+        <input id="myurl" type="hidden" ng-value="index">
+        <input id="arrangeindex" type="hidden" ng-value="arrangeindex">
+        <!--<input id="originindex" type="hidden" ng-value="index">-->
+       <!-- <p id="myurl" hidden>{{index}}</p>-->
+	</ion-header-bar>
+	<ion-content class="bg-classic" has-bouncing="false" delegate-handle="photoDetailHandle" ng-class="{'top-ios': !android}">
+		<div style="display: none;">
+			<div id="rn-loader" class="no-flicker"><i class="ion-loading-c"></i></div>
+		</div>		
+		<div class="sh-container">
+			<div class="sh-detail-photo">
+				<div class="photo-wrapper" rn-lazy-background="index" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded"></div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

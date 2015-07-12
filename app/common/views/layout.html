@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title><%= yield.viewName %></title>
+
+        <link rel="stylesheet" href="../common/stylesheets/application.css" />
+
+        <script src="http://localhost/cordova.js"></script>
+        <script src="../../components/steroids-js/steroids.js"></script>
+        <script src="../../components/ionic/js/ionic.bundle.min.js"></script>
+        <script src="../../components/others/underscore.js"></script>
+        <script src="../../components/others/lazy.js"></script>
+        <script src="../../components/others/parse.js"></script>
+        <script src="../shairy.js"></script>
+    </head>
+    <body ng-app="shairy">
+        <% if (yield.viewName !== 'home'){ %>
+            <div id="shairy-ios-bar" ng-if="!android"></div>
+        <% } %>
+        <div class="no-flicker sh-alert sh-alert-balanced clearfix" on-tap="delTip()" ng-if="tip">
+            <div class="sh-message">{{tip}}</div>
+        </div>
+        <div class="no-flicker sh-alert sh-alert-assertive clearfix" on-tap="delError()" ng-if="error">
+            <div class="sh-message">{{error}}</div>
+        </div>
+        <%= yield.view %>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<ion-view title="Home" ng-controller="HomeCtrl">  
+    <ion-pane class="sh-modal-request cover" has-bouncing="false">
+        <div id="intro-animation">
+            <h1 style="-webkit-transform: translate3d(0,{{viewportHeight/2-43}}px,0); transform: translate3d(0,{{viewportHeight/2-43}}px,0)"></h1>
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+            <div class="signin-wrapper-button bg-transparent clearfix" ng-if="!inError">
+                <div class="sh-title">
+                    <div class="table-wrapper">
+                        <div class="table-cell-wrapper">inserisci i dati per accedere</div>
+                    </div>
+                </div>
+                <div class="sep-1"></div>
+                <div class="sh-list-wrap">
+                    <div class="sh-elem-list">
+                        <div class="item item-input sh-elem-input">
+                            <span class="sh-placeholder" ng-if="!user.email">Email</span>
+                            <input id="email" type="text" name="email" ng-model="user.email" class="detect-focus" autocapitalize="off">
+                            <span class="clear-field" on-tap="clear('email')" ng-if="user.email"></span>
+                        </div>
+                    </div>
+                    <div class="sh-elem-list">
+                        <div class="item item-input sh-elem-input">
+                            <span class="sh-placeholder" ng-if="!user.password">Password</span>
+                            <input id="password" type="password" name="password" ng-model="user.password" class="detect-focus">
+                            <span class="clear-field" on-tap="clear('password')" ng-if="user.password"></span>
+                        </div>
+                    </div>
+                    <div class="sh-elem-list">
+                        <div class="rememberme">
+                            <div class="item item-checkbox">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="user.rememberMe">
+                                </label>
+                                <span>Ricordami</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mg-top-20">
+                    <div class="sh-elem-list center bg-outline" on-tap="login()">
+                        <div class="sh-list-row-btn">accedi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="free-test">
+                <div on-tap="freeTest()">Richiedi la prova gratuita</div>
+            </div>
+        </div>
+    </ion-pane>
+</ion-view>

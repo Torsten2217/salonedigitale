@@ -1,0 +1,21 @@
+/***********************************************************
+ * These styles apply for native components on iOS.
+ * Read more about native styles at http://docs.appgyver.com
+ ***********************************************************/
+
+navigation-bar{
+  	background-color: #222;
+  	color: #ffffff;
+  	height: 48px;
+  	font-size: 18px;
+}
+
+navigation-bar title{
+	color: #ffffff;
+  	font-weight: bold;
+}
+
+/*navigation-bar back-indicator{
+	background-image: url("/images/icon/icon-back@2x.png");
+	background-size: 20;
+}*/

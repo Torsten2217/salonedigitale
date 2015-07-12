@@ -1,0 +1,83 @@
+<ion-view title="Profilo" ng-controller="ProfileCtrl">
+	<ion-header-bar class="bar-stable" no-tap-scroll="true" ng-class="{'mg-top-20': !android}">
+		<h1 class="title">{{me.workname}}</h1>
+		<button class="button bar-right-button" on-tap="options()" ng-class="{'button-disabled': !online}">
+			<span class="sh-span-icon sh-icon-settings"></span>
+		</button>
+	</ion-header-bar>
+	<ion-content class="bg-white" has-bouncing="false" ng-class="{'top-ios': !android}">
+		<!-- <h1 class="title-profile">Compila tutte le informazioni per visualizzare il tuo profilo online.</h1> -->
+		<div class="menu-salone">
+			<ul id="ul-menu-salone" class="clearfix">
+				<li on-tap="openInfos()">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>generali</h1>
+								<h2 ng-if="(!me.tel1 && !me.tel2) || !me.workcity.address || !me.workcity.number || !me.workcity.name || !me.workcity.cap">Inserisci almeno i tuoi contatti</h2>
+								<h2 class="is-grey" ng-if="(me.tel1 || me.tel2) && me.workcity.address && me.workcity.number && me.workcity.name && me.workcity.cap && (!me.products || !me.products.length)">Non hai inserito i prodotti</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>
+				<li on-tap="editSalone('ORARI')">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>orari</h1>
+								<h2 ng-if="!me.time_table || (me.time_table[0].start_time == null && me.time_table[1].start_time == null && me.time_table[2].start_time == null && me.time_table[3].start_time == null && me.time_table[4].start_time == null && me.time_table[5].start_time == null && me.time_table[6].start_time == null)">Inserisci almeno un giorno di apertura</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>
+				<li on-tap="editSalone('STAFF')">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>staff</h1>
+								<h2 ng-if="!me.workers || !me.workers.length">Inserisci almeno una persona del tuo staff</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>
+				<li on-tap="editSalone('TRATTAMENTI')">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>servizi</h1>
+								<h2 ng-if="!me.services || !me.services.length">Inserisci almeno un trattamento</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>
+				<li on-tap="openProfile()">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>Design</h1>
+								<h2 ng-if="!me.image">Inserisci almeno la copertina</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>
+				<li on-tap="openNew('layer', 'roll')">
+					<div class="outer-wrapper">
+					    <div class="table-wrapper">
+					        <div class="table-cell-wrapper">
+					        	<h1>foto salone</h1>
+								<h2 ng-if="!photos.length">Inserisci almeno una foto</h2>
+					        </div>
+					    </div>
+					</div>					
+				</li>		
+			</ul>
+			<div class="sh-container" id="wrap-profile-button">
+				<div class="sh-list-wrap mg-top-20 mg-left-20 mg-right-20">
+					<button class="sh-elem-list button center bg-save" on-tap="openOnlineProfile()" ng-disabled="(!me.tel1 && !me.tel2) || !me.workcity.address || !me.workcity.number || !me.workcity.name || !me.workcity.cap || !me.time_table || (me.time_table[0].start_time == null && me.time_table[1].start_time == null && me.time_table[2].start_time == null && me.time_table[3].start_time == null && me.time_table[4].start_time == null && me.time_table[5].start_time == null && me.time_table[6].start_time == null) || !me.workers || !me.workers.length || !me.services || !me.services.length || !me.image || !photos.length || !me.profile || !me.profile.active">
+						<div class="sh-list-row-btn save">visualizza l'anteprima <span>del tuo sito web</span></div>
+					</button>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,20 @@
+<ion-view title="Acconciature" ng-controller="RollCtrl">
+	<ion-header-bar class="bar-stable" no-tap-scroll="true" ng-class="{'mg-top-20': !android}">
+		<button class="button bar-left-button" on-tap="back()">
+			<span class="sh-span-icon sh-icon-arrow-left"></span>
+		</button>
+		<h1 class="title">Foto Salone</h1>
+	</ion-header-bar>
+	<ion-content class="bg-classic" has-bouncing="false" delegate-handle="rollHandle" ng-class="{'top-ios': !android}">
+		<div style="display: none;">
+			<div id="roll-loader" class="no-flicker"><i class="ion-loading-c"></i></div>
+		</div>
+		<div class="roll clearfix">
+			<div class="box-image" on-tap="pickImages()"><div class="box-add"></div></div>
+            <div class="box-image" rn-lazy-background="child" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-repeat="child in cameraimage" ng-if="cameraimage.length!=0" on-tap="openPhoto1($index)"></div>
+            <div class="box-image" rn-lazy-background="myphoto" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-repeat="myphoto in remoteurl" ng-hide="$index >= ppp * page" ng-if="remoteurl.length!=0" on-tap="openPhoto($index)"></div>
+			<!--<div class="box-image" rn-lazy-background="imgUrl + photo.objectId + '.png'" rn-lazy-loader="#roll-loader" rn-lazy-loaded-class="rn-loaded" on-tap="openPhoto($index)" ng-repeat="photo in photos" ng-hide="$index >= ppp * page" ng-if="loadRollPhotos >= photos.length"></div>-->
+ 			<ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-hide="photos.length <= ppp * page"></ion-infinite-scroll>
+		</div>
+	</ion-content>
+</ion-view>

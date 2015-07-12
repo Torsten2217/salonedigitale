@@ -1,0 +1,82 @@
+<ion-view title="Salone" ng-controller="SaloneCtrl">
+	<ion-header-bar class="bar-stable" no-tap-scroll="true" ng-class="{'mg-top-20': !android}">
+		<button class="button bar-left-button" on-tap="back()">
+			<span class="sh-span-icon sh-icon-arrow-left"></span>
+		</button>
+		<h1 class="title" ng-if="section == 'STAFF'">Staff</h1>
+		<h1 class="title" ng-if="section == 'TRATTAMENTI'">Trattamenti</h1>
+		<h1 class="title" ng-if="section == 'ORARI'">Orari</h1>
+	</ion-header-bar>
+	<ion-content class="bg-classic" has-bouncing="false" ng-class="{'top-ios': !android}">
+        <div style="display: none;">
+			<div id="rn-loader" class="no-flicker"><i class="ion-loading-c"></i></div>
+		</div>
+		<div class="salone">
+			<div class="sh-wrap-col-salone">
+				<!-- STAFF -->
+				<div ng-if="section == 'STAFF'">
+					<div class="sh-list-wrap">
+						<div class="sh-elem-list staff" ng-repeat="worker in me.workers">
+							<div class="sh-list-info" on-tap="openSettings('worker', $index)">
+								<div class="sh-list-thumb">
+									<div ng-if="!worker.image" class="thumb none">{{worker.first_name.substring(0, 1)}}{{worker.last_name.substring(0, 1)}}</div>
+									<div ng-if="worker.image" class="thumb" rn-lazy-background="worker.image.url" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded"></div>
+								</div>
+								<div class="sh-list-title">{{worker.first_name}} {{worker.last_name}}</div>
+								<div class="sh-list-subtitle">{{worker.role}}</div>
+							</div>
+							<div class="sh-list-btn-remove" on-tap="remove('worker', $index)"></div>
+						</div>
+						<div class="sh-elem-list staff center iphone-height-button" on-tap="openSettings('worker', -1)">
+							<div class="sh-list-row-btn add">aggiungi</div>
+						</div>
+					</div>
+				</div>
+				<!-- TRATTAMENTI -->
+				<div ng-if="section == 'TRATTAMENTI'">
+					<div class="sh-list-wrap">
+						<div class="sh-elem-list services" ng-repeat="service in me.services">
+							<div class="sh-list-info" on-tap="openSettings('service', $index)">
+								<div class="sh-list-title">{{service.name}}</div>
+								<div class="sh-list-detailservices"><span ng-if="Math.floor(service.duration / 3600) > 0">{{Math.floor(service.duration / 3600)}}h</span> <span ng-if="service.duration % 3600 > 0">{{(service.duration % 3600) / 60}}m</span> / {{service.price}}€</div>
+							</div>
+							<div class="sh-list-btn-remove" on-tap="remove('service', $index)"></div>
+						</div>
+						<div class="sh-elem-list services center iphone-height-button" on-tap="openSettings('service', -1)">
+							<div class="sh-list-row-btn add">aggiungi</div>
+						</div>
+					</div>
+				</div>
+				<!-- ORARI -->
+				<div ng-if="section == 'ORARI'">
+					<div class="sh-list-wrap">
+						<div class="sh-elem-list grey center" ng-repeat="day in me.time_table" on-tap="openSettings('time_table', $index)">
+							<div class="sh-list-title" ng-if="$index == 0">Lunedì</div>
+							<div class="sh-list-title" ng-if="$index == 1">Martedì</div>
+							<div class="sh-list-title" ng-if="$index == 2">Mercoledì</div>
+							<div class="sh-list-title" ng-if="$index == 3">Giovedì</div>
+							<div class="sh-list-title" ng-if="$index == 4">Venerdì</div>
+							<div class="sh-list-title" ng-if="$index == 5">Sabato</div>
+							<div class="sh-list-title" ng-if="$index == 6">Domenica</div>
+							<div class="sh-list-subtitle" ng-if="!day.start_time">chiuso</div>
+							<div class="sh-list-subtitle" ng-if="day.start_time && !day.start_break">{{day.start_time}}-{{day.end_time}}</div>
+							<div class="sh-list-subtitle" ng-if="day.start_time && day.start_break">{{day.start_time}}-{{day.start_break}} / {{day.end_break}}-{{day.end_time}}</div>
+						</div>
+					</div>						
+					<div class="sh-title sh-title-medium-dark small">extra</div>
+					<div class="sh-list-wrap">
+						<div class="sh-elem-list grey center" ng-repeat="opening in me.extra_openings" on-tap="openSettings('extra_opening', $index)">
+							<div class="sh-list-title">{{opening.fdate}}</div>
+							<div class="sh-list-subtitle" ng-if="!opening.start_time">chiuso</div>
+							<div class="sh-list-subtitle" ng-if="opening.start_time && !opening.start_break">{{opening.start_time}}-{{opening.end_time}}</div>
+							<div class="sh-list-subtitle" ng-if="opening.start_time && opening.start_break">{{opening.start_time}}-{{opening.start_break}} / {{opening.end_break}}-{{opening.end_time}}</div>
+						</div>
+						<div class="sh-elem-list grey center iphone-height-button" on-tap="openSettings('extra_opening', -1)">
+							<div class="sh-list-row-btn add">aggiungi</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

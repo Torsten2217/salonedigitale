@@ -1,0 +1,786 @@
+<ion-view title="Impostazioni" ng-controller="SettingsCtrl">
+	<ion-header-bar class="bar-stable" no-tap-scroll="true" ng-class="{'mg-top-20': !android}">
+		<button class="button bar-left-button" on-tap="stopEditing()">
+			<span class="sh-span-icon sh-icon-arrow-left"></span>
+		</button>
+		<h1 class="title" ng-if="type == 'infos'">Modifica Informazioni</h1>
+		<h1 class="title" ng-if="type == 'time_table' || (type == 'extra_opening' && index >= 0)">Modifica Orari</h1>
+		<h1 class="title" ng-if="type == 'extra_opening' && index < 0">Aggiungi Orari</h1>
+		<h1 class="title" ng-if="(type == 'service' || type == 'staff_service') && index < 0">Aggiungi Trattamento</h1>
+		<h1 class="title" ng-if="(type == 'service' || type == 'staff_service') && index >= 0">Modifica Trattamento</h1>
+		<h1 class="title" ng-if="type == 'worker' && index < 0">Aggiungi Staff</h1>
+		<h1 class="title" ng-if="type == 'worker' && index >= 0">Modifica Staff</h1> 
+		<h1 class="title" ng-if="type == 'profile'">Design</h1>
+		<button class="button bar-right-button" on-tap="remove()" ng-if="(type == 'service' || type == 'worker' || type == 'extra_opening') && index >= 0" ng-class="{'button-disabled': !online}">
+			<span class="sh-span-icon sh-icon-trash"></span>
+		</button>
+	</ion-header-bar>
+	<ion-content class="bg-classic" has-bouncing="false" ng-class="{'top-ios': !android}">
+		<div style="display: none;">
+			<div id="rn-loader" class="no-flicker"><i class="ion-loading-c"></i></div>
+		</div>
+
+		<!-- EDIT TIME TABLE -->
+		<div class="sh-container" ng-if="type == 'time_table' || type == 'extra_opening'">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-one">
+					<div ng-if="type == 'extra_opening'">
+						<div class="sh-title">
+							<div class="table-wrapper">
+								<div class="table-cell-wrapper">Data</div>
+							</div>
+						</div>
+						<div class="sh-list-wrap clearfix">
+							<div class="sh-elem-list one-fourth-width double-height center">
+								<div class="sh-list-label">Giorno</div>
+								<div class="sh-list-digits">
+									<div class="day">
+										<select ng-model="day.day">
+											<option value="01">1</option>
+									    	<option value="02">2</option>
+									        <option value="03">3</option>
+									    	<option value="04">4</option>
+									        <option value="05">5</option>
+									        <option value="06">6</option>
+									        <option value="07">7</option>
+									        <option value="08">8</option>
+									        <option value="09">9</option>
+									        <option>10</option>
+									        <option>11</option>
+									        <option>12</option>
+									        <option>13</option>
+									        <option>14</option>
+									        <option>15</option>
+									        <option>16</option>
+									        <option>17</option>
+									        <option>18</option>
+									        <option>19</option>
+									        <option>20</option>
+									        <option>21</option>
+									        <option>22</option>
+									        <option>23</option>
+									        <option>24</option>
+									        <option>25</option>
+									        <option>26</option>
+									        <option>27</option>
+									        <option>28</option>
+									        <option>29</option>
+									        <option>30</option>
+									        <option>31</option>
+									    </select>
+									</div>
+								</div>
+							</div>
+							<div class="sh-elem-list two-fourth-width double-height center">
+								<div class="sh-list-label">Mese</div>
+								<div class="sh-list-digits">
+									<div class="month">
+										<select ng-model="day.month">
+											<option value="01">Gennaio</option>
+									    	<option value="02">Febbraio</option>
+									        <option value="03">Marzo</option>
+									    	<option value="04">Aprile</option>
+									    	<option value="05">Maggio</option>
+									    	<option value="06">Giugno</option>
+									        <option value="07">Luglio</option>
+									    	<option value="08">Agosto</option>
+									    	<option value="09">Settembre</option>
+									    	<option value="10">Ottobre</option>
+									        <option value="11">Novembre</option>
+									    	<option value="12">Dicembre</option>
+									    </select>
+									</div>
+								</div>
+							</div>
+							<div class="sh-elem-list one-fourth-width double-height center">
+								<div class="sh-list-label">Anno</div>
+								<div class="sh-list-digits">
+									<div class="year">
+										<select ng-model="day.year">
+											<option>2014</option>
+									    	<option>2015</option>
+									        <option>2016</option>
+									    </select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="pd-bottom-10"></div>
+					</div>
+
+					<div class="sh-title" ng-class="{'disabled-text': day.closed}">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">Apertura</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list half-width double-height center">
+							<div class="sh-list-label" ng-class="{'disabled-text': day.closed}">Dalle</div>
+							<div class="sh-list-digits clearfix">
+								<div class="hours">
+									<select ng-disabled="day.closed" ng-model="day.start_time_h">
+										<option>0</option>
+										<option>1</option>
+								    	<option>2</option>
+								        <option>3</option>
+								    	<option>4</option>
+								        <option>5</option>
+								        <option>6</option>
+								        <option>7</option>
+								        <option>8</option>
+								        <option>9</option>
+								        <option>10</option>
+								        <option>11</option>
+								        <option>12</option>
+								        <option>13</option>
+								        <option>14</option>
+								        <option>15</option>
+								        <option>16</option>
+								        <option>17</option>
+								        <option>18</option>
+								        <option>19</option>
+								        <option>20</option>
+								        <option>21</option>
+								        <option>22</option>
+								        <option>23</option>
+								    </select>
+								</div>
+								<div class="colon" ng-class="{'disabled-text': day.closed}">:</div>
+								<div class="minutes">
+									<select ng-disabled="day.closed" ng-model="day.start_time_m">
+										<option>00</option>
+								    	<option>15</option>
+								        <option>30</option>
+								    	<option>45</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+						<div class="sh-elem-list half-width double-height center">
+							<div class="sh-list-label" ng-class="{'disabled-text': day.closed}">Alle</div>
+							<div class="sh-list-digits clearfix">
+								<div class="hours">
+									<select ng-disabled="day.closed" ng-model="day.end_time_h">
+										<option>0</option>
+										<option>1</option>
+								    	<option>2</option>
+								        <option>3</option>
+								    	<option>4</option>
+								        <option>5</option>
+								        <option>6</option>
+								        <option>7</option>
+								        <option>8</option>
+								        <option>9</option>
+								        <option>10</option>
+								        <option>11</option>
+								        <option>12</option>
+								        <option>13</option>
+								        <option>14</option>
+								        <option>15</option>
+								        <option>16</option>
+								        <option>17</option>
+								        <option>18</option>
+								        <option>19</option>
+								        <option>20</option>
+								        <option>21</option>
+								        <option>22</option>
+								        <option>23</option>
+								    </select>
+								</div>
+								<div class="colon" ng-class="{'disabled-text': day.closed}">:</div>
+								<div class="minutes">
+									<select ng-disabled="day.closed" ng-model="day.end_time_m">
+										<option>00</option>
+								    	<option>15</option>
+								        <option>30</option>
+								    	<option>45</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pd-bottom-10"></div>
+					<div class="sh-title" ng-class="{'disabled-text': day.closed || day.continued}">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">pausa</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list half-width double-height center">
+							<div class="sh-list-label" ng-class="{'disabled-text': day.closed || day.continued}">Dalle</div>
+							<div class="sh-list-digits clearfix">
+								<div class="hours">
+									<select ng-disabled="day.closed || day.continued" ng-model="day.start_break_h">
+										<option>0</option>
+										<option>1</option>
+								    	<option>2</option>
+								        <option>3</option>
+								    	<option>4</option>
+								        <option>5</option>
+								        <option>6</option>
+								        <option>7</option>
+								        <option>8</option>
+								        <option>9</option>
+								        <option>10</option>
+								        <option>11</option>
+								        <option>12</option>
+								        <option>13</option>
+								        <option>14</option>
+								        <option>15</option>
+								        <option>16</option>
+								        <option>17</option>
+								        <option>18</option>
+								        <option>19</option>
+								        <option>20</option>
+								        <option>21</option>
+								        <option>22</option>
+								        <option>23</option>
+								    </select>
+								</div>
+								<div class="colon" ng-class="{'disabled-text': day.closed || day.continued}">:</div>
+								<div class="minutes">
+									<select ng-disabled="day.closed || day.continued" ng-model="day.start_break_m">
+										<option>00</option>
+								    	<option>15</option>
+								        <option>30</option>
+								    	<option>45</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+						<div class="sh-elem-list half-width double-height center">
+							<div class="sh-list-label" ng-class="{'disabled-text': day.closed || day.continued}">Alle</div>
+							<div class="sh-list-digits clearfix">
+								<div class="hours">
+									<select ng-disabled="day.closed || day.continued" ng-model="day.end_break_h">
+										<option>0</option>
+										<option>1</option>
+								    	<option>2</option>
+								        <option>3</option>
+								    	<option>4</option>
+								        <option>5</option>
+								        <option>6</option>
+								        <option>7</option>
+								        <option>8</option>
+								        <option>9</option>
+								        <option>10</option>
+								        <option>11</option>
+								        <option>12</option>
+								        <option>13</option>
+								        <option>14</option>
+								        <option>15</option>
+								        <option>16</option>
+								        <option>17</option>
+								        <option>18</option>
+								        <option>19</option>
+								        <option>20</option>
+								        <option>21</option>
+								        <option>22</option>
+								        <option>23</option>
+								    </select>
+								</div>
+								<div class="colon" ng-class="{'disabled-text': day.closed || day.continued}">:</div>
+								<div class="minutes">
+									<select ng-disabled="day.closed || day.continued" ng-model="day.end_break_m">
+										<option>00</option>
+								    	<option>15</option>
+								        <option>30</option>
+								    	<option>45</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sh-col sh-col-type-two" id="time-table-option">
+					<div class="sh-title sh-title-dark small">opzioni</div>
+					<div class="sh-list-wrap">
+						<div class="sh-elem-list sh-elem-toggle" on-tap="setClosed()" ng-if="type == 'time_table'"><!-- no se giorno extra -->
+							<div class="sh-list-title">
+								<div class="table-wrapper">
+									<div class="table-cell-wrapper">Chiuso</div>
+								</div>
+							</div>
+							<div class="sh-toggle">
+								<label class="toggle">
+									<input type="checkbox" ng-model="day.closed" disabled>
+									<div class="track">
+										<div class="handle"></div>
+									</div>
+								</label>
+							</div>
+						</div>
+						<div class="sh-elem-list sh-elem-toggle" on-tap="setContinued()">
+							<div class="sh-list-title" ng-class="{'disabled-text': day.closed}">
+								<div class="table-wrapper">
+									<div class="table-cell-wrapper">Orario Continuato</div>
+								</div>
+							</div>
+							<div class="sh-toggle">
+								<label class="toggle">
+									<input type="checkbox" ng-model="day.continued" ng-class="{'closed': day.closed}" disabled>
+									<div class="track">
+										<div class="handle"></div>
+									</div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- EDIT SERVICE -->
+		<div class="sh-container" ng-if="type == 'service' && index >= 0">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-five">
+					<div class="sh-title">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">durata</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list double-height center">
+							<div class="sh-list-digits clearfix">
+								<div class="period">
+									<select ng-model="service.duration">
+										<option value="900">0:15</option>
+										<option value="1800">0:30</option>
+								    	<option value="2700">0:45</option>
+								        <option value="3600">1:00</option>
+								    	<option value="4500">1:15</option>
+								        <option value="5400">1:30</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pd-bottom-10"></div>
+					<div class="sh-title">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">prezzo</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list double-height center">
+							<div class="sh-list-digits">
+								<div class="price">
+									<select ng-model="service.price">
+										<option ng-repeat="p in prices" value="{{p}}" ng-selected="{{p == service.price}}">{{p}}€</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+		<!-- END EDIT SERVICE -->
+
+		<!-- ADD / EDIT STAFF -->
+		<div class="sh-container" ng-if="type == 'worker'">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-five">
+					<div class="sh-title">
+	                    <div class="table-wrapper">
+	                        <div class="table-cell-wrapper">dati</div>
+	                    </div>
+	                </div>
+					<div class="sh-list-wrap sh-relative">
+						<div class="sh-elem-list square grey" on-tap="editPhoto()">
+							<div class="sh-elem-img" rn-lazy-background="worker.image" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-if="worker.image && !worker.image.url"></div>
+							<div class="sh-elem-img" rn-lazy-background="worker.image.url" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-if="worker.image && worker.image.url"></div>
+							<div class="sh-elem-img none" ng-if="!worker.image">{{worker.first_name.substring(0, 1)}}{{worker.last_name.substring(0, 1)}}</div>
+							<div class="sh-elem-img overlay"></div>
+						</div>
+						<div class="sh-elem-list near-square grey">
+							<div class="item item-input sh-elem-input">
+								<span class="sh-placeholder" ng-if="!worker.first_name.length">Nome</span>
+                                <input id="first_name" type="text" name="first_name" ng-model="worker.first_name" ng-class="{'ng-invalid': missing.first_name}" ng-focus="missing.first_name = false" class="detect-focus">
+                                <span class="clear-field" on-tap="clear('worker', 'first_name')" ng-if="worker.first_name.length"></span>
+                            </div>
+						</div>
+						<div class="sh-elem-list near-square grey">
+							<div class="item item-input sh-elem-input">
+								<span class="sh-placeholder" ng-if="!worker.last_name.length">Cognome</span>
+                                <input id="last_name" type="text" name="last_name" ng-model="worker.last_name" ng-class="{'ng-invalid': missing.last_name}" ng-focus="missing.last_name = false" class="detect-focus">
+                                <span class="clear-field" on-tap="clear('worker', 'last_name')" ng-if="worker.last_name.length"></span>
+                            </div>
+						</div>
+						<div class="sh-elem-list grey">
+							<div class="item item-input sh-elem-input">
+								<span class="sh-placeholder" ng-if="!worker.role.length">Ruolo</span>
+                                <input id="role" type="text" name="role" ng-model="worker.role" class="detect-focus">
+                                <span class="clear-field" on-tap="clear('worker', 'role')" ng-if="worker.role.length"></span>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+		<!-- END STAFF -->
+
+		<!-- ADD SERVICE -->
+		<div class="sh-container" ng-if="type == 'service' && index < 0">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-four">
+					<div class="sh-title sh-title-dark small">servizi</div>
+					<div class="list list-inset sh-list-inset">
+					    <label class="item item-input">
+					    	<input type="text" placeholder="Cerca" ng-model="searching.value">
+					    	<span class="clear-field" on-tap="clear('searching', 'value')" ng-if="searching.value"></span>
+					    </label>
+					</div>
+					<div class="sh-list-scroll">
+						<ion-scroll has-bouncing="false" delegate-handle="service">
+							<ul class="clearfix">
+								<li class="sh-items-checkbox" ng-repeat="hdservice in filteredServices = (allServices | orderBy: 'name' | filter: searching.value)" ng-if="(!searching.value && $index < page * epp) || (searching.value && $index < spage * epp)">
+									<div class="item item-checkbox">
+										<label class="checkbox">											
+											<input type="radio" name="radio" ng-model="service.name" ng-value="hdservice.name">
+										</label>
+										<div ng-class="{'checked': hdservice.name == service.name, 'disabled': hdservice.used}">
+											<div class="table-wrapper">
+												<div class="table-cell-wrapper">{{hdservice.name | cut:true:35:' ...'}}</div>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li class="no-item-found" ng-if="!filteredServices.length">Nessun risultato.</li>
+							</ul>
+							<ion-infinite-scroll on-infinite="loadMore()" distance="0" icon="ion-loading-d" ng-if="(!searching.value && page * epp <= allServices.length) || (searching.value && spage * epp <= allServices.length)"></ion-infinite-scroll>
+						</ion-scroll>
+					</div>
+				</div>
+				<div class="sh-col sh-col-type-one">
+					<div class="sh-name-service">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">{{service.name}}</div>
+						</div>
+					</div>
+					<div class="sh-title">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">durata</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list double-height center">
+							<div class="sh-list-digits clearfix">
+								<div class="period">
+									<select ng-model="service.duration">
+										<option value="900">0:15</option>
+										<option value="1800">0:30</option>
+								    	<option value="2700">0:45</option>
+								        <option value="3600">1:00</option>
+								    	<option value="4500">1:15</option>
+								        <option value="5400">1:30</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pd-bottom-10"></div>
+					<div class="sh-title">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">prezzo</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap clearfix">
+						<div class="sh-elem-list double-height center">
+							<div class="sh-list-digits">
+								<div class="price">
+									<select ng-model="service.price">
+										<option ng-repeat="p in prices" value="{{p}}" ng-selected="{{p == service.price}}">{{p}}€</option>
+								    </select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+		<!-- END ADD SERVICE -->
+
+		<!-- EDIT INFOS -->
+		<div class="sh-container" id="edit-info" ng-if="type == 'infos'">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-one">
+					<div class="sh-title">
+	                    <div class="table-wrapper">
+	                        <div class="table-cell-wrapper">nome salone</div>
+	                    </div>
+	                </div>
+					<div class="sh-list-wrap sh-relative">						
+						<div class="sh-elem-list grey">
+							<div class="item item-input sh-elem-input">
+								<span class="sh-placeholder" ng-if="!salone.workname" ng-class="{'ng-invalid': missing.workname}">Nome del salone</span>
+                                <input id="workname" type="text" name="workname" ng-model="salone.workname" ng-class="{'ng-invalid': missing.workname}" ng-focus="missing.workname = false" class="detect-focus">
+                                <span class="clear-field" on-tap="clear('salone', 'workname')" ng-if="salone.workname"></span>
+                            </div>
+						</div>
+					</div>
+					<div class="mg-top-10">
+						<div class="sh-title">
+		                    <div class="table-wrapper">
+		                        <div class="table-cell-wrapper">tipologia salone</div>
+		                    </div>
+		                </div>
+						<div class="sh-list-wrap sh-relative">
+							<div class="sh-row-checkbox clearfix">
+								<div class="sh-items-checkbox">
+									<div class="item item-checkbox">
+										<label class="checkbox">
+											<input type="radio" name="radio" ng-model="salone.worktype" value="Uomo">
+										</label>
+										<span>Uomo</span>
+									</div>
+								</div>
+								<div class="sh-items-checkbox">
+									<div class="item item-checkbox">
+										<label class="checkbox">											
+											<input type="radio" name="radio" ng-model="salone.worktype" value="Donna">
+										</label>
+										<span>Donna</span>
+									</div>
+								</div>
+								<div class="sh-items-checkbox">
+									<div class="item item-checkbox">
+										<label class="checkbox">											
+											<input type="radio" name="radio" ng-model="salone.worktype" value="Unisex">
+										</label>
+										<span>Unisex</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mg-top-10">
+						<div class="sh-title">
+		                    <div class="table-wrapper">
+		                        <div class="table-cell-wrapper">contatti</div>
+		                    </div>
+		                </div>
+						<div class="sh-list-wrap settings-contacts">
+							<div class="clearfix">
+								<div class="sh-elem-list grey three-fourth border-right">
+									<div class="item item-input sh-elem-input">
+										<span class="sh-placeholder" ng-if="!salone.workcity.address">Indirizzo</span>
+		                                <input id="address" type="text" name="address" ng-model="salone.workcity.address" class="detect-focus">
+		                                <span class="clear-field" on-tap="clear('salone', 'workcity', 'address')" ng-if="salone.workcity.address"></span>
+		                            </div>
+								</div>
+								<div class="sh-elem-list grey one-fourth center">
+									<div class="item item-input sh-elem-input small">
+										<span class="sh-placeholder" ng-if="!salone.workcity.number">N°</span>
+		                                <input id="streetnumber" type="tel" name="streetnumber" ng-model="salone.workcity.number">
+		                            </div>
+								</div>
+								<div class="sh-elem-list grey one-fourth border-right center">
+									<div class="item item-input sh-elem-input small">
+										<span class="sh-placeholder" ng-if="!salone.workcity.cap">CAP</span>
+		                                <input id="zipcode" type="tel" name="zipcode" ng-model="salone.workcity.cap">
+		                            </div>
+								</div>
+								<div class="sh-elem-list grey three-fourth">
+									<div class="item item-input sh-elem-input">
+										<span class="sh-placeholder" ng-if="!salone.workcity.name">Città</span>
+		                                <input id="city" type="text" name="city" ng-model="salone.workcity.name" class="detect-focus">
+		                                <span class="clear-field" on-tap="clear('salone', 'workcity', 'name')" ng-if="salone.workcity.name"></span>
+		                            </div>
+								</div>
+							</div>
+							<div class="sh-elem-list grey">
+								<div class="item item-input sh-elem-input">
+									<span class="sh-placeholder" ng-if="!salone.tel1">Numero di Telefono 1</span>
+	                                <input id="phone" type="tel" name="phone" ng-model="salone.tel1" class="detect-focus">
+	                                <span class="clear-field" on-tap="clear('salone', 'tel1')" ng-if="salone.tel1"></span>
+	                            </div>
+							</div>
+							<div class="sh-elem-list grey">
+								<div class="item item-input sh-elem-input">
+									<span class="sh-placeholder" ng-if="!salone.tel2">Numero di Telefono 2</span>
+	                                <input id="mobilephone" type="tel" name="mobilephone" ng-model="salone.tel2" class="detect-focus">
+	                                <span class="clear-field" on-tap="clear('salone', 'tel2')" ng-if="salone.tel2"></span>
+	                            </div>
+							</div>
+						</div>
+					</div>
+					<div class="mg-top-10">
+						<div class="sh-title">
+		                    <div class="table-wrapper">
+		                        <div class="table-cell-wrapper">Facebook</div>
+		                    </div>
+		                </div>
+						<div class="sh-list-wrap sh-relative">						
+							<div class="sh-elem-list grey">
+								<div class="item item-input sh-elem-input">
+									<span class="sh-placeholder" ng-if="!salone.facebook">Copia e incolla l'indirizzo della tua pagina Facebook</span>
+	                                <input id="facebook-page" type="text" name="facebook-page" ng-model="salone.facebook" class="detect-focus">
+	                                <span class="clear-field" on-tap="clear('salone', 'facebook-page')" ng-if="salone.facebook"></span>
+	                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="lista-prodotti" class="sh-col sh-col-type-two">
+					<div class="sh-title sh-title-dark small">linea prodotti</div>
+					<div class="list list-inset sh-list-inset">
+					    <label class="item item-input">
+					    	<input type="text" placeholder="Cerca" ng-model="searching.value">
+					    	<span class="clear-field" on-tap="clear('searching', 'value')" ng-if="searching.value"></span>
+					    </label>
+					</div>
+					<div class="sh-list-scroll">
+						<ion-scroll has-bouncing="false" delegate-handle="infos">
+							<ul class="clearfix">
+								<li ng-repeat="product in filteredProducts = (products | filter: searching.value)">
+									<label class="item item-radio">
+										<input type="checkbox" ng-model="myproducts[product]" ng-change="editProduct(product)" ng-disabled="!myproducts[product] && salone.products.length >= 5">
+										<h3 class="item-content">{{product | cut:true:35:' ...'}}</h3>
+										<i class="radio-icon ion-ios7-checkmark-empty"></i>
+									</label>
+								</li>
+								<li class="no-item-found" ng-if="!filteredProducts.length">Nessun risultato.</li>
+							</ul>
+						</ion-scroll>
+					</div>
+				</div>
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+		<!-- END EDIT INFOS -->
+		
+		<!-- EDIT PROFILE -->
+		<div class="sh-container" ng-if="type == 'profile'">
+			<div class="clearfix">
+				<div class="sh-col sh-col-type-one">
+					<div class="sh-title">
+						<div class="table-wrapper">
+							<div class="table-cell-wrapper">Template</div>
+						</div>
+					</div>
+					<div class="sh-list-wrap sh-relative">						
+						<div class="sh-pattern-checkbox clearfix">
+							<div class="sh-items-checkbox">
+								<div class="item item-checkbox">
+									<label class="checkbox">
+										<input type="radio" name="radio" ng-model="salone.profile.background" value="0">
+										<span style="background-image: url('/images/basic-thumb.jpg')"></span>
+									</label>										
+								</div>
+							</div>
+							<div class="sh-items-checkbox">
+								<div class="item item-checkbox">
+									<label class="checkbox">
+										<input type="radio" name="radio" ng-model="salone.profile.background" value="1">
+										<span style="background-image: url('/images/minimal-thumb.jpg')"></span>
+									</label>										
+								</div>
+							</div>
+							<div class="sh-items-checkbox">
+								<div class="item item-checkbox">
+									<label class="checkbox">
+										<input type="radio" name="radio" ng-model="salone.profile.background" value="2">
+										<span style="background-image: url('/images/modern-thumb.jpg')"></span>
+									</label>										
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mg-top-10">
+						<div class="sh-title">
+							<div class="table-wrapper">
+								<div class="table-cell-wrapper">Copertina</div>
+							</div>
+						</div>
+						<div class="sh-list-wrap">
+							<div class="sh-elem-list copertina">
+								<div class="box-image">
+									<div class="salone-image" rn-lazy-background="salone.image.url" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-if="salone.image.url"></div>
+									<div class="salone-image" rn-lazy-background="salone.image" rn-lazy-loader="#rn-loader" rn-lazy-loaded-class="rn-loaded" ng-if="!salone.image.url"></div>
+									<div class="tap-avatar" on-tap="snapAvatar()"></div>		
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mg-top-10">
+						<div class="sh-title">
+							<div class="table-wrapper">
+								<div class="table-cell-wrapper">Descrizione</div>
+							</div>
+						</div>
+						<div class="sh-list-wrap">
+							<div class="sh-elem-list grey double-height">
+								<div class="item item-input sh-elem-input">
+									<span class="sh-placeholder no-icon" ng-if="!salone.description">Breve descrizione della tua attività.</span>
+	                                <textarea id="inputtextarea" ng-model="salone.description" class="detect-focus"></textarea>
+	                                <span class="clear-field" on-tap="clear('salone', 'description')" ng-if="salone.description"></span>
+	                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sh-col sh-col-type-two" id="color-column">
+					<div class="sh-title sh-title-dark small">Colore principale</div>
+					<div class="sh-list-wrap sh-relative">						
+						<div class="sh-color-checkbox clearfix">
+							<div class="sh-items-checkbox" ng-repeat="color in colors">
+								<div class="item item-checkbox">
+									<label class="checkbox">
+										<span style="background: {{color}};"></span>
+										<input type="radio" name="radioColor" ng-model="salone.profile.color" ng-value="color">			
+									</label>										
+								</div>
+							</div>
+							<div class="sh-items-checkbox">
+								<div class="item item-checkbox">
+									<label class="checkbox">
+										<input type="radio" name="radioColor" ng-model="salone.profile.color" value="custom">
+									</label>
+									<span>Personalizzato</span>
+								</div>
+							</div>
+						</div>
+						<div class="sh-elem-list grey">
+							<div class="item item-input sh-elem-input">
+								<span class="sh-placeholder" ng-if="!salone.profile.customColor">#000000</span>
+                                <input id="customColor" type="text" name="customColor" class="detect-focus" ng-model="salone.profile.customColor" ng-click="salone.profile.color = 'custom'">
+                                <span class="clear-field" on-tap="clear('salone', 'profile', 'customColor')" ng-if="salone.profile.customColor"></span>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="sh-list-wrap mg-top-20">
+				<div class="sh-elem-list center bg-save" on-tap="save()">
+					<div class="sh-list-row-btn save">salva</div>
+				</div>
+			</div>
+		</div>
+		<!-- END EDIT PROFILE -->
+	</ion-content>
+</ion-view>
